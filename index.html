@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms Comparison</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Sorting Algorithms Comparison</h1>
+    <div id="output"></div>
+    <script src="scripts/bubbleSort.js"></script>
+    <script src="scripts/selectionSort.js"></script>
+    <!-- Include other sorting algorithms scripts -->
+    <script>
+        // Example usage to test sorting algorithms
+        let arr = [5, 3, 8, 2, 1, 4];
+        bubbleSort(arr.slice());
+        console.log("Bubble Sorted Array:", arr);
+
+        selectionSort(arr.slice());
+        console.log("Selection Sorted Array:", arr);
+        // Call other sorting algorithms here for testing
+    </script>
+</body>

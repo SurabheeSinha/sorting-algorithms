@@ -8,18 +8,84 @@
 </head>
 <body>
     <h1>Sorting Algorithms Comparison</h1>
+    
+    <!-- Input field to display and modify the array -->
+    <label for="arrayInput">Array (comma separated):</label>
+    <input type="text" id="arrayInput" value="5,3,8,2,1,4">
+    
+    <!-- Dropdown to choose sorting algorithm -->
+    <label for="algorithmSelect">Choose Sorting Algorithm:</label>
+    <select id="algorithmSelect">
+        <option value="bubbleSort">Bubble Sort</option>
+        <option value="selectionSort">Selection Sort</option>
+        <!-- Add other sorting algorithms here -->
+    </select>
+    
+    <!-- Button to trigger sorting -->
+    <button onclick="sortArray()">Sort</button>
+    
+    <!-- Div to display the sorted array -->
     <div id="output"></div>
+    
     <script src="scripts/bubbleSort.js"></script>
     <script src="scripts/selectionSort.js"></script>
     <!-- Include other sorting algorithms scripts -->
+    
     <script>
+        function sortArray() {
+            // Get the array from input
+            let arr = document.getElementById('arrayInput').value.split(',').map(Number);
+            
+            // Get the selected algorithm
+            let algorithm = document.getElementById('algorithmSelect').value;
+            
+            // Sort the array using the selected algorithm
+            if (algorithm === 'bubbleSort') {
+                arr = bubbleSort(arr.slice());
+            } else if (algorithm === 'selectionSort') {
+                arr = selectionSort(arr.slice());
+            }
+            // Add other sorting algorithms here
+            
+            // Display the sorted array
+            document.getElementById('output').innerText = "Sorted Array: " + arr.join(', ');
+        }
+        
         // Example usage to test sorting algorithms
         let arr = [5, 3, 8, 2, 1, 4];
-        bubbleSort(arr.slice());
-        console.log("Bubble Sorted Array:", arr);
-
-        selectionSort(arr.slice());
-        console.log("Selection Sorted Array:", arr);
-        // Call other sorting algorithms here for testing
+        
+        function bubbleSort(arr) {
+            let n = arr.length;
+            for (let i = 0; i < n-1; i++) {
+                for (let j = 0; j < n-i-1; j++) {
+                    if (arr[j] > arr[j+1]) {
+                        // Swap arr[j] and arr[j+1]
+                        let temp = arr[j];
+                        arr[j] = arr[j+1];
+                        arr[j+1] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+        
+        function selectionSort(arr) {
+            let n = arr.length;
+            for (let i = 0; i < n-1; i++) {
+                // Find the minimum element in unsorted array
+                let min_idx = i;
+                for (let j = i+1; j < n; j++) {
+                    if (arr[j] < arr[min_idx]) {
+                        min_idx = j;
+                    }
+                }
+                // Swap the found minimum element with the first element
+                let temp = arr[min_idx];
+                arr[min_idx] = arr[i];
+                arr[i] = temp;
+            }
+            return arr;
+        }
     </script>
 </body>
+</html>

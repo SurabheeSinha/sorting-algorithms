@@ -26,6 +26,9 @@
     
     <!-- Div to display the sorted array -->
     <div id="output"></div>
+
+    <!-- Div to display the steps -->
+    <div id="stepsOutput"></div>
     
     <script src="scripts/bubbleSort.js"></script>
     <script src="scripts/selectionSort.js"></script>
@@ -38,19 +41,25 @@
             
             // Get the selected algorithm
             let algorithm = document.getElementById('algorithmSelect').value;
-            
+
+            // Clear previous steps
+            document.getElementById('stepsOutput').innerHTML = "";
+
             // Sort the array using the selected algorithm
             if (algorithm === 'bubbleSort') {
-                arr = bubbleSort(arr.slice());
+                bubbleSort(arr.slice());
             } else if (algorithm === 'selectionSort') {
-                arr = selectionSort(arr.slice());
+                selectionSort(arr.slice());
             }
             // Add other sorting algorithms here
-            
-            // Display the sorted array
-            document.getElementById('output').innerText = "Sorted Array: " + arr.join(', ');
         }
         
+        function displayStep(step) {
+            const stepElement = document.createElement('div');
+            stepElement.textContent = step;
+            document.getElementById('stepsOutput').appendChild(stepElement);
+        }
+
         // Example usage to test sorting algorithms
         let arr = [5, 3, 8, 2, 1, 4];
         
@@ -64,9 +73,10 @@
                         arr[j] = arr[j+1];
                         arr[j+1] = temp;
                     }
+                    displayStep(`Step ${i}-${j}: ${arr.join(', ')}`);
                 }
             }
-            return arr;
+            document.getElementById('output').innerText = "Bubble Sorted Array: " + arr.join(', ');
         }
         
         function selectionSort(arr) {
@@ -83,8 +93,9 @@
                 let temp = arr[min_idx];
                 arr[min_idx] = arr[i];
                 arr[i] = temp;
+                displayStep(`Step ${i}: ${arr.join(', ')}`);
             }
-            return arr;
+            document.getElementById('output').innerText = "Selection Sorted Array: " + arr.join(', ');
         }
     </script>
 </body>

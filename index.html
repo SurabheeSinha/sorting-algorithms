@@ -9,11 +9,9 @@
 <body>
     <h1>Sorting Algorithms Comparison</h1>
     
-    <!-- Input field to display and modify the array -->
     <label for="arrayInput">Array (comma separated):</label>
     <input type="text" id="arrayInput" value="5,3,8,2,1,4">
     
-    <!-- Dropdown to choose sorting algorithm -->
     <label for="algorithmSelect">Choose Sorting Algorithm:</label>
     <select id="algorithmSelect">
         <option value="bubbleSort">Bubble Sort</option>
@@ -21,82 +19,68 @@
         <!-- Add other sorting algorithms here -->
     </select>
     
-    <!-- Button to trigger sorting -->
     <button onclick="sortArray()">Sort</button>
     
-    <!-- Div to display the sorted array -->
-    <div id="output"></div>
-
-    <!-- Div to display the steps -->
-    <div id="stepsOutput"></div>
+    <div id="arrayContainer"></div>
+    <div id="sortedArrayText"></div>
     
     <script src="scripts/bubbleSort.js"></script>
     <script src="scripts/selectionSort.js"></script>
     <!-- Include other sorting algorithms scripts -->
     
     <script>
-        function sortArray() {
-            // Get the array from input
-            let arr = document.getElementById('arrayInput').value.split(',').map(Number);
-            
-            // Get the selected algorithm
-            let algorithm = document.getElementById('algorithmSelect').value;
+      function renderArray(arr) {
+    const container = document.getElementById('arrayContainer');
+    container.innerHTML = '';  // Clear previous content
+    arr.forEach((value, index) => {
+        const bar = document.createElement('div');
+        bar.className = 'array-bar';
+        bar.style.height = `${value * 10}px`;
+        bar.style.transform = `translateX(${index * 30}px)`;
+        container.appendChild(bar);
+    });
+}
 
-            // Clear previous steps
-            document.getElementById('stepsOutput').innerHTML = "";
+function renderSortedArrayText(arr) {
+    const sortedArrayText = document.getElementById('sortedArrayText');
+    sortedArrayText.textContent = `Sorted Array: ${arr.join(', ')}`;
+}
 
-            // Sort the array using the selected algorithm
-            if (algorithm === 'bubbleSort') {
-                bubbleSort(arr.slice());
-            } else if (algorithm === 'selectionSort') {
-                selectionSort(arr.slice());
-            }
-            // Add other sorting algorithms here
-        }
-        
-        function displayStep(step) {
-            const stepElement = document.createElement('div');
-            stepElement.textContent = step;
-            document.getElementById('stepsOutput').appendChild(stepElement);
-        }
+function sortArray() {
+    let arr = document.getElementById('arrayInput').value.split(',').map(Number);
+    console.log('Initial Array:', arr);  // Debugging log
+    
+    renderArray(arr);
+    
+    let algorithm = document.getElementById('algorithmSelect').value;
+    console.log('Selected Algorithm:', algorithm);  // Debugging log
 
-        // Example usage to test sorting algorithms
-        let arr = [5, 3, 8, 2, 1, 4];
-        
-        function bubbleSort(arr) {
-            let n = arr.length;
-            for (let i = 0; i < n-1; i++) {
-                for (let j = 0; j < n-i-1; j++) {
-                    if (arr[j] > arr[j+1]) {
-                        // Swap arr[j] and arr[j+1]
-                        let temp = arr[j];
-                        arr[j] = arr[j+1];
-                        arr[j+1] = temp;
-                    }
-                    displayStep(`Step ${i}-${j}: ${arr.join(', ')}`);
-                }
-            }
-            document.getElementById('output').innerText = "Bubble Sorted Array: " + arr.join(', ');
+    if (algorithm === 'bubbleSort') {
+        bubbleSort(arr.slice());
+    } else if (algorithm === 'selectionSort') {
+        selectionSort(arr.slice());
+    }
+}
+
+function displaySteps(steps) {
+    steps.forEach((step, index) => {
+        console.log('Step:', step);  // Debugging log
+        setTimeout(() => {
+            renderArray(step);
+        }, index * 500);
+    });
+
+    // Render the final sorted array
+    setTimeout(() => {
+        const finalStep = steps[steps.length - 1];
+        if (finalStep) {
+            console.log('Final Sorted Array:', finalStep);  // Debugging log
+            renderArray(finalStep);
+            renderSortedArrayText(finalStep);  // Display the sorted array as text
         }
-        
-        function selectionSort(arr) {
-            let n = arr.length;
-            for (let i = 0; i < n-1; i++) {
-                // Find the minimum element in unsorted array
-                let min_idx = i;
-                for (let j = i+1; j < n; j++) {
-                    if (arr[j] < arr[min_idx]) {
-                        min_idx = j;
-                    }
-                }
-                // Swap the found minimum element with the first element
-                let temp = arr[min_idx];
-                arr[min_idx] = arr[i];
-                arr[i] = temp;
-                displayStep(`Step ${i}: ${arr.join(', ')}`);
-            }
-            document.getElementById('output').innerText = "Selection Sorted Array: " + arr.join(', ');
-        }
+    }, steps.length * 500);
+}
+
     </script>
 </body>
 </html>

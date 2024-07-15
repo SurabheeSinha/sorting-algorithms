@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+#arrayContainer {
+    position: relative;
+    height: 200px;
+    width: 100%;
+    border: 1px solid #000;
+    margin-top: 20px;
+}
+
+.array-bar {
+    position: absolute;
+    width: 20px;
+    background-color: #3498db;
+    transition: transform 0.5s, height 0.5s;
+}
